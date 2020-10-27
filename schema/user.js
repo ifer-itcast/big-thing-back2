@@ -23,3 +23,11 @@ exports.update_userinfo_schema = {
         email
     }
 };
+
+// 更改密码的规则
+exports.update_password_schema = {
+    body: {
+        oldPwd: password,
+        newPwd: joi.not(joi.ref('oldPwd')).concat(password)
+    }
+};
