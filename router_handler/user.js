@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const db = require('../db');
-
+const config = require('../config');
 
 exports.regUser = (req, res) => {
     const userinfo = req.body;
@@ -62,5 +63,26 @@ exports.regUser = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    res.send('login ok');
+    // 1. 校验用户信息
+    const userinfo = req.body;
+    // 2. 查询此用户名是否存在
+    const sql = 'select * from ev_users where username=?';
+    db.query(sql, userinfo.username, (err, results) => {
+        if (err) return res.cc(err);
+        if (results.length !== 1) return res.cc('用户名不存在，登录失败！');
+        // 3. 查询到了此用户，就比对密码
+        const compareResult = bcrypt.compareSync(userinfo.password, results[0].password);
+        if (!compareResult) {
+            return res.cc('密码错误，登录失败！');
+        }
+        // 4. 密码正确，生成 token
+        const user = { ...results[0], password: '', user_pic: '' };
+        const tokenStr = jwt.sign(user, config.jwtSecretKey, { expiresIn: '10h' });
+
+        res.send({
+            status: 0,
+            message: '登录成功！',
+            token: 'Bearer ' + tokenStr
+        });
+    });
 };
