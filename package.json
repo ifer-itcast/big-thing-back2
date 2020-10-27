@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ifer-itcast/big-thing-back2#readme",
   "dependencies": {
+    "@escook/express-joi": "^1.1.0",
+    "@hapi/joi": "^17.1.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
