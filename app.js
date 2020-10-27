@@ -26,6 +26,8 @@ app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api\//] 
 
 const userRouter = require('./router/user');
 app.use('/api', userRouter);
+const userinfoRouter = require('./router/userinfo');
+app.use('/my', userinfoRouter);
 
 app.use((err, req, res, next) => {
     // 数据验证失败
