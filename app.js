@@ -10,6 +10,8 @@ app.use(express.urlencoded({
     extended: false
 }));
 
+app.use('/uploads', express.static('./uploads'));
+
 // 统一响应
 app.use((req, res, next) => {
     res.cc = function (err, status = 1) {
@@ -33,6 +35,10 @@ app.use('/my', userinfoRouter);
 // 文章管理
 const artCateRouter = require('./router/artcate');
 app.use('/my/article', artCateRouter);
+
+// 发布文章
+const articleRouter = require('./router/article');
+app.use('/my/article', articleRouter);
 
 
 app.use((err, req, res, next) => {
