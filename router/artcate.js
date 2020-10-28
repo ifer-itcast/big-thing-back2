@@ -3,7 +3,7 @@ const expressJoi = require('@escook/express-joi');
 const router = express.Router();
 
 const artcate_handler = require('../router_handler/artcate');
-const { add_cate_schema, delete_cate_schema, get_cate_schema } = require('../schema/artcate');
+const { add_cate_schema, delete_cate_schema, get_cate_schema, update_cate_schema } = require('../schema/artcate');
 
 // 获取文章分类
 router.get('/cates', artcate_handler.getArticleCates);
@@ -16,5 +16,8 @@ router.get('/deletecate/:id', expressJoi(delete_cate_schema), artcate_handler.de
 
 // 根据 Id 获取文章分类
 router.get('/cates/:id', expressJoi(get_cate_schema), artcate_handler.getArtCateById);
+
+// 根据 Id 更新文章分类数据
+router.post('/updatecate', expressJoi(update_cate_schema), artcate_handler.updateCateById);
 
 module.exports = router;

@@ -22,3 +22,11 @@ exports.get_cate_schema = {
         id
     }
 };
+
+exports.update_cate_schema = {
+    body: {
+        Id: id, // 要求传递过来的是大写 Id，这里是区分大小写的
+        name,
+        alias
+    }
+};
