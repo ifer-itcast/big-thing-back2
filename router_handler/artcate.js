@@ -51,3 +51,16 @@ exports.deleteCateById = (req, res) => {
     });
 };
 
+// 根据 Id 获取文章分类数据
+exports.getArtCateById = (req, res) => {
+    const sql = `select * from ev_article_cate where id=?`;
+    db.query(sql, req.params.id, (err, results) => {
+        if (err) return res.cc(err);
+        if (results.length !== 1) return res.cc('获取文章分类数据失败！');
+        res.send({
+            status: 0,
+            message: '获取文章分类数据成功！',
+            data: results[0]
+        });
+    });
+};

@@ -16,3 +16,9 @@ exports.delete_cate_schema = {
         id
     }
 };
+
+exports.get_cate_schema = {
+    params: {
+        id
+    }
+};
