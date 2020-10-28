@@ -24,10 +24,16 @@ app.use((req, res, next) => {
 // 解析 token
 app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api\//] }));
 
+// 注册/登录
 const userRouter = require('./router/user');
 app.use('/api', userRouter);
+// 用户管理
 const userinfoRouter = require('./router/userinfo');
 app.use('/my', userinfoRouter);
+// 文章管理
+const artCateRouter = require('./router/artcate');
+app.use('/my/article', artCateRouter);
+
 
 app.use((err, req, res, next) => {
     // 数据验证失败
