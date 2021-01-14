@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+    <script>
+/* const opts = {
+    color: 'red',
+    info: {
+        name: 'ifer'
+    }
+};
+const defaults = {
+    size: 18
+};
+// 这种写法还是浅拷贝
+const combineObj = $.extend({}, defaults, opts);
+combineObj.info.name = 'xxx';
+console.log(opts.info.name); // 'xxx' */
+
+const opts = {
+    color: 'red',
+    info: {
+        name: 'ifer'
+    }
+};
+const defaults = {
+    size: 18
+};
+// true 代表深拷贝
+const combineObj = $.extend(true, {}, defaults, opts);
+combineObj.info.name = 'xxx';
+console.log(opts.info.name); // 'ifer'
+    </script>
+</body>
+
+</html>
