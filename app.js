@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
+const express    = require('express');
+const cors       = require('cors');
+const app        = express();
 const expressJWT = require('express-jwt');
-const config = require('./config');
+const config     = require('./config');
 
 // #1 跨域处理
 app.use(cors());
