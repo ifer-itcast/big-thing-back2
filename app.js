@@ -1,41 +1,27 @@
 const express = require('express');
 const cors = require('cors');
-const joi = require('@hapi/joi');
 const app = express();
 const expressJWT = require('express-jwt');
 const config = require('./config');
 
+// #1 跨域处理
 app.use(cors());
-app.use(express.urlencoded({
-    extended: false
-}));
 
-// 统一响应
-app.use((req, res, next) => {
-    res.cc = function (err, status = 1) {
-        res.send({
-            status,
-            message: err instanceof Error ? err.message : err
-        });
-    };
-    next();
-});
+// #2 解析 POST 请求
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-// 解析 token
+// #3 统一响应，优化 res.send
+app.use(require('./middleware/optimizeSend'));
+
+// #4 解析 token
 app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api\//] }));
 
-const userRouter = require('./router/user');
-app.use('/api', userRouter);
-const userinfoRouter = require('./router/userinfo');
-app.use('/my', userinfoRouter);
+// !#5 自己设计接口
+app.use('/api', require('./router/user'));
+app.use('/my', require('./router/userinfo'));
 
-app.use((err, req, res, next) => {
-    // 数据验证失败
-    if (err instanceof joi.ValidationError) return res.cc(err);
-    // token 解析失败
-    if (err.name === 'UnauthorizedError') return res.cc('身份认证失败！');
-    // 未知错误
-    res.cc(err);
-});
+// #6 错误处理
+app.use(require('./middleware/errorHandler'));
 
 app.listen(3007, () => console.log('api server running at http://127.0.0.1:3007'));
